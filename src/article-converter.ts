@@ -29,14 +29,32 @@ function processComponent(component: ArticleComponent): Block | undefined {
     case 'BLOCK_QUOTE':
     case 'PULL_QUOTE':
     case 'BOOK_INFO':
-      return { type: 'TEXT', text: (component as any).text };
+      return { type: 'TEXT', text: sanitiseText((component as any).text) };
     case 'ORDERED_LIST':
     case 'UNORDERED_LIST':
       return (component as any).items.map((text: { text: string }) => ({
         type: 'TEXT',
-        text: text.text,
+        text: sanitiseText(text.text),
       }));
     default:
       return undefined;
   }
+}
+
+function sanitiseText(text: string): string {
+  // Remove a ufinish if present at end
+  if (text.endsWith('■')) {
+    text.substring(0, text.length - 1);
+  }
+
+  const lastChar = text.at(-1);
+
+  // Make sure last character is punctuation
+  const punctuation = ['.', '?', '!'];
+
+  if (lastChar && !punctuation.includes(lastChar)) {
+    text += '.';
+  }
+
+  return text;
 }
