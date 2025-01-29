@@ -25,7 +25,6 @@ export class ForGeneratingAudioElevenLabs implements ForGeneratingAudio {
         {
           text: paragraph,
           model_id: this.model,
-          // previous_request_ids: previousRequestIds.slice(-3),
           previous_text: i == 0 ? undefined : article.at(i - 1),
           next_text: article.at(i + 1),
           pronunciation_dictionary_locators: [

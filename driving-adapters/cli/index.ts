@@ -1,13 +1,13 @@
 import 'dotenv/config';
-import {
-  ForGeneratingAudioElevenLabs,
-  Model,
-} from '../../src/driver-adapters/for-generating-audio-elevenlabs';
 import { ForSavingFilesDisk } from '../../src/driver-adapters/for-saving-files-disk';
 import { ForFetchingArticlesCp2 } from '../../src/driver-adapters/for-fetching-articles-cp2';
 import { TTSGenerator } from '../../src/tts-generator';
 import { program, Option } from 'commander';
 import { z } from 'zod';
+import {
+  ForGeneratingAudioLegacy,
+  Model,
+} from '../../src/driver-adapters/for-generating-audio-legacy';
 
 function expectEnvVar(envVar: string): string {
   if (!process.env[envVar]) {
@@ -48,7 +48,7 @@ async function main() {
     username,
     password,
   );
-  const audioConverter = new ForGeneratingAudioElevenLabs(
+  const audioConverter = new ForGeneratingAudioLegacy(
     apiKey,
     params.model === 'multilingual' ? Model.Multilingual : Model.Turbo,
   );

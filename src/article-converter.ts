@@ -36,7 +36,6 @@ function processComponent(component: ArticleComponent): Block | undefined {
   switch (component.type) {
     case 'PARAGRAPH':
     case 'BLOCK_QUOTE':
-    case 'PULL_QUOTE':
     case 'BOOK_INFO':
       return { type: 'TEXT', text: (component as any).text };
     case 'ORDERED_LIST':

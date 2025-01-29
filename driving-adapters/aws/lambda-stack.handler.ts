@@ -4,7 +4,6 @@ import {
   ForGeneratingAudioElevenLabs,
   Model,
 } from '../../src/driver-adapters/for-generating-audio-elevenlabs';
-import { ForSavingFilesDisk } from '../../src/driver-adapters/for-saving-files-disk';
 import { TTSGenerator } from '../../src/tts-generator';
 import { ForSavingFilesS3 } from '../../src/driver-adapters/for-saving-files-s3';
 
