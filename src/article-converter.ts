@@ -16,7 +16,16 @@ export function convertArticle(article: Article): Block[] {
 
   const body = convertBody(article);
 
-  return [...lead, ...body];
+  const data = [...lead, ...body];
+
+  for (let i = 0; i < data.length; i++) {
+    const block = data[i];
+    if (block.type === 'TEXT') {
+      block.text = sanitiseText(block.text);
+    }
+  }
+
+  return data;
 }
 
 function convertBody(article: Article): Block[] {
@@ -29,12 +38,12 @@ function processComponent(component: ArticleComponent): Block | undefined {
     case 'BLOCK_QUOTE':
     case 'PULL_QUOTE':
     case 'BOOK_INFO':
-      return { type: 'TEXT', text: sanitiseText((component as any).text) };
+      return { type: 'TEXT', text: (component as any).text };
     case 'ORDERED_LIST':
     case 'UNORDERED_LIST':
       return (component as any).items.map((text: { text: string }) => ({
         type: 'TEXT',
-        text: sanitiseText(text.text),
+        text: text.text,
       }));
     default:
       return undefined;
