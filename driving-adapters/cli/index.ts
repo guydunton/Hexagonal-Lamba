@@ -5,9 +5,9 @@ import { TTSGenerator } from '../../src/tts-generator';
 import { program, Option } from 'commander';
 import { z } from 'zod';
 import {
-  ForGeneratingAudioLegacy,
+  ForGeneratingAudioElevenLabs,
   Model,
-} from '../../src/driver-adapters/for-generating-audio-legacy';
+} from '../../src/driver-adapters/for-generating-audio-elevenlabs';
 
 function expectEnvVar(envVar: string): string {
   if (!process.env[envVar]) {
@@ -48,7 +48,7 @@ async function main() {
     username,
     password,
   );
-  const audioConverter = new ForGeneratingAudioLegacy(
+  const audioConverter = new ForGeneratingAudioElevenLabs(
     apiKey,
     params.model === 'multilingual' ? Model.Multilingual : Model.Turbo,
   );
