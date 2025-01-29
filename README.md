@@ -1,6 +1,6 @@
 # Hexagonal architecture eleven labs example
 
-This repo is an example one for hexagonal architecture using the elevenlabs API to convert article content to TTS
+This repo is an example one for hexagonal architecture using the elevenlabs API to convert article content to TTS. It was inspired by a [talk from Alistair Cockburn](https://www.youtube.com/watch?v=k0ykTxw7s0Y)
 
 ## Ports
 
