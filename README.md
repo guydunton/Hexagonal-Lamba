@@ -15,3 +15,7 @@ This repo is an example one for hexagonal architecture using the elevenlabs API 
 - for fetching articles
 - for updating dictionaries
 - for saving files
+
+## Driving adapters
+
+This project can be deployed in 2 ways; as a lambda but also as a CLI.
