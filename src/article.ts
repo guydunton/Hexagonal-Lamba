@@ -45,7 +45,6 @@ const paragraph = z.object({
 const pullQuote = z.object({
   type: z.literal('PULL_QUOTE'),
   text: z.string(),
-  annotations: z.array(annotation),
 });
 
 const unorderedList = z.object({
@@ -59,12 +58,12 @@ const anyComponent = z.object({
 
 const articleComponent = z.union([
   blockQuote,
+  pullQuote,
   bookInfo,
   crosshead,
   divider,
   orderedList,
   paragraph,
-  pullQuote,
   unorderedList,
   anyComponent,
 ]);

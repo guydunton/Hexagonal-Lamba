@@ -11,7 +11,7 @@ export class ForFetchingArticlesCp2 implements ForFetchingArticles {
       this.cp2Url,
       {
         query:
-          'fragment AnnotationFrag on Annotation{type index length}fragment ComponentFrag on ArticleComponent{type ... on ParagraphComponent{text annotations{...AnnotationFrag}}... on BlockQuoteComponent{text annotations{...AnnotationFrag}}... on CrossheadComponent{text}... on OrderedListComponent{items{text annotations{...AnnotationFrag}}}... on UnorderedListComponent{items{text annotations{...AnnotationFrag}}}... on BookInfoComponent{text annotations{...AnnotationFrag}}}query GetArticle($url:String!){findArticleByUrl(url:$url){headline flyTitle rubric dateFirstPublished section{name}body{...ComponentFrag ... on InfoboxComponent{type components{...ComponentFrag}}}}}',
+          'fragment AnnotationFrag on Annotation{type index length}fragment ComponentFrag on ArticleComponent{type ... on ParagraphComponent{text annotations{...AnnotationFrag}}... on BlockQuoteComponent{text annotations{...AnnotationFrag}}... on CrossheadComponent{text}... on OrderedListComponent{items{text annotations{...AnnotationFrag}}}... on UnorderedListComponent{items{text annotations{...AnnotationFrag}}}... on BookInfoComponent{text annotations{...AnnotationFrag}}}query GetArticle($url:String!){findArticleByUrl(url:$url){headline flyTitle rubric dateFirstPublished section{name}body{...ComponentFrag ... on InfoboxComponent{type components{...ComponentFrag ... on PullQuoteComponent{text}}}}}}',
         variables: {
           url,
         },
@@ -24,7 +24,9 @@ export class ForFetchingArticlesCp2 implements ForFetchingArticles {
       },
     );
 
+    const data = contentResponse.data.data.findArticleByUrl;
+
     // Convert response
-    return Article.parse(contentResponse.data.data.findArticleByUrl);
+    return Article.parse(data);
   }
 }

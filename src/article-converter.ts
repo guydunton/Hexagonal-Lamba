@@ -1,7 +1,7 @@
 import { Article, ArticleComponent } from './article';
 import { Block } from './tts-generator';
 
-export function convertArticle(article: Article): Block[] {
+export function convertDefaultArticle(article: Article): Block[] {
   const aiDisclaimer = 'This audio has been produced using an AI voice.';
   const sectionName = article.flyTitle;
   const headline = article.headline;
@@ -37,6 +37,7 @@ function processComponent(component: ArticleComponent): Block | undefined {
     case 'PARAGRAPH':
     case 'BLOCK_QUOTE':
     case 'BOOK_INFO':
+    case 'CROSSHEAD':
       return { type: 'TEXT', text: (component as any).text };
     case 'ORDERED_LIST':
     case 'UNORDERED_LIST':

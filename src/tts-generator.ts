@@ -1,5 +1,6 @@
 import { Article } from './article';
-import { convertArticle } from './article-converter';
+import { convertDefaultArticle } from './article-converter';
+import { inBriefConverter } from './in-brief-converter';
 
 export interface ForGeneratingTTSAudio {
   generateTTSFile(articleUrl: string, filename: string): Promise<void>;
@@ -29,10 +30,19 @@ export class TTSGenerator implements ForGeneratingTTSAudio {
   async generateTTSFile(articleUrl: string, filename: string) {
     const article = await this.articleRepository.fetchArticle(articleUrl);
 
-    const data = convertArticle(article);
+    const data = TTSGenerator.getConverter(article)(article);
 
     const audioData = await this.audioGenerationService.generateAudio(data);
 
     await this.fileRepository.writeFile(audioData, filename);
+  }
+
+  static getConverter(article: Article): (article: Article) => Block[] {
+    switch (article.section.name) {
+      case 'In brief':
+        return inBriefConverter;
+      default:
+        return convertDefaultArticle;
+    }
   }
 }
