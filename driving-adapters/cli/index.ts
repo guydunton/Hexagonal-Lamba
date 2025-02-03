@@ -1,13 +1,14 @@
 import 'dotenv/config';
 import { ForSavingFilesDisk } from '../../src/driver-adapters/for-saving-files-disk';
 import { ForFetchingArticlesCp2 } from '../../src/driver-adapters/for-fetching-articles-cp2';
-import { TTSGenerator } from '../../src/tts-generator';
+import { ForGeneratingAudio, TTSGenerator } from '../../src/tts-generator';
 import { program, Option } from 'commander';
 import { z } from 'zod';
 import {
   ForGeneratingAudioElevenLabs,
   Model,
 } from '../../src/driver-adapters/for-generating-audio-elevenlabs';
+import { ForGeneratingAudioNull } from '../../src/driver-adapters/for-generating-audio-null';
 
 function expectEnvVar(envVar: string): string {
   if (!process.env[envVar]) {
@@ -20,6 +21,7 @@ const options = z.object({
   url: z.string(),
   output: z.string().default('audio.mp3'),
   model: z.enum(['turbo', 'multilingual']),
+  format: z.enum(['audio', 'text']),
 });
 
 async function main() {
@@ -35,6 +37,11 @@ async function main() {
         .choices(['turbo', 'multilingual'])
         .default('turbo'),
     )
+    .addOption(
+      new Option('-f, --format <format>', 'Use to generate a TTS script')
+        .choices(['audio', 'text'])
+        .default('audio'),
+    )
     .option('-o, --output <file>', 'Output file. Defaults to audio.mp3')
     .argument('<URL>', 'Article URL');
 
@@ -48,14 +55,24 @@ async function main() {
     username,
     password,
   );
-  const audioConverter = new ForGeneratingAudioElevenLabs(
-    apiKey,
-    params.model === 'multilingual' ? Model.Multilingual : Model.Turbo,
-  );
+
+  const audioConverter = audioGenerator(apiKey, params.format, params.model);
   const fileSaver = new ForSavingFilesDisk();
 
   const application = new TTSGenerator(audioConverter, fileSaver, repo);
   await application.generateTTSFile(params.url, params.output);
+}
+
+function audioGenerator(apiKey: string, format: string, model: string): ForGeneratingAudio {
+  switch (format) {
+    case 'text':
+      return new ForGeneratingAudioNull();
+    default:
+      return new ForGeneratingAudioElevenLabs(
+        apiKey,
+        model === 'multilingual' ? Model.Multilingual : Model.Turbo,
+      );
+  }
 }
 
 main();

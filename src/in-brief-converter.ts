@@ -82,6 +82,9 @@ function sanitiseText(text: string): string {
     text.substring(0, text.length - 1);
   }
 
+  // Fix currency
+  text = text.replace(/(\$|£|€)?(\d+)(bn|mln|m|trn)/g, '$1$2 $3');
+
   const lastChar = text.at(-1);
 
   // Make sure last character is punctuation
