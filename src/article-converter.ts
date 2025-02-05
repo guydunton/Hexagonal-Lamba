@@ -2,7 +2,7 @@ import { Article, ArticleComponent } from './article';
 import { Block } from './tts-generator';
 
 export function convertDefaultArticle(article: Article): Block[] {
-  const aiDisclaimer = 'This audio has been produced using an AI voice.';
+  const aiDisclaimer = 'This story is AI narrated.';
   const sectionName = article.flyTitle;
   const headline = article.headline;
   const rubric = article.rubric;

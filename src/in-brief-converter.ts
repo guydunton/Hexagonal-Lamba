@@ -2,7 +2,7 @@ import { Article, ArticleComponent } from './article';
 import { Block } from './tts-generator';
 
 export function inBriefConverter(article: Article): Block[] {
-  const aiDisclaimer = 'This audio has been produced using an AI voice.';
+  const aiDisclaimer = 'This story is AI narrated.';
   const sectionName = article.section.name;
   const headline = article.headline;
   const date = article.dateFirstPublished;

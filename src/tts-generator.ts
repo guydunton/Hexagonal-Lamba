@@ -8,16 +8,16 @@ export interface ForGeneratingTTSAudio {
 
 export type Block = { type: 'TEXT'; text: string } | { type: 'PAUSE'; length: number };
 
+export interface ForFetchingArticles {
+  fetchArticle(url: string): Promise<Article>;
+}
+
 export interface ForGeneratingAudio {
   generateAudio(data: Block[]): Promise<Buffer>;
 }
 
 export interface ForSavingFiles {
   writeFile(data: Buffer, filename: string): Promise<void>;
-}
-
-export interface ForFetchingArticles {
-  fetchArticle(url: string): Promise<Article>;
 }
 
 export class TTSGenerator implements ForGeneratingTTSAudio {
