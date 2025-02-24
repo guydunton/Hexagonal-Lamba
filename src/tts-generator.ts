@@ -29,10 +29,9 @@ export class TTSGenerator implements ForGeneratingTTSAudio {
   async generateTTSFile(articleUrl: string, filename: string) {
     const article = await this.articleRepository.fetchArticle(articleUrl);
 
-    const data = TTSGenerator.getConverter(article)(article);
+    const script = TTSGenerator.getConverter(article)(article);
 
-    const audioData = await this.audioGenerationService.generateAudio(data);
-
+    const audioData = await this.audioGenerationService.generateAudio(script);
     await this.fileRepository.writeFile(audioData, filename);
   }
 
