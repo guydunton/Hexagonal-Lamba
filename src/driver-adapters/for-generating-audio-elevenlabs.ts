@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Block, ForGeneratingAudio } from '../tts-generator';
+import { ForGeneratingAudio } from '../tts-generator';
+import { Script } from '../script';
 
 export enum Model {
   Turbo = 'eleven_turbo_v2_5',
@@ -14,7 +15,7 @@ enum Voice {
 export class ForGeneratingAudioElevenLabs implements ForGeneratingAudio {
   constructor(private apiKey: string, private model: Model) {}
 
-  async generateAudio(data: Block[]): Promise<Buffer> {
+  async generateAudio(data: Script): Promise<Buffer> {
     const article = this.convertToApiRequest(data);
     const chunks = [];
 
@@ -30,7 +31,7 @@ export class ForGeneratingAudioElevenLabs implements ForGeneratingAudio {
           pronunciation_dictionary_locators: [
             {
               pronunciation_dictionary_id: 'Bld0e6OQDX4IX7TWCmjA',
-              version_id: 'eUDBGHWfROhaB9PaTTYw',
+              version_id: 'hmk81z1ArXXiyPypoAEA',
             },
           ],
         },
@@ -49,7 +50,7 @@ export class ForGeneratingAudioElevenLabs implements ForGeneratingAudio {
     return Buffer.concat(chunks);
   }
 
-  convertToApiRequest(data: Block[]): string[] {
+  convertToApiRequest(data: Script): string[] {
     const output: string[] = [];
     for (const block of data) {
       if (block.type === 'TEXT') {

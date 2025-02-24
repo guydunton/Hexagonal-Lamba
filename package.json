@@ -6,6 +6,7 @@
     "cdk:deploy": "cdk deploy --hotswap-fallback",
     "cdk:deploy-all": "cdk deploy",
     "cdk:synth": "cdk synth",
+    "build": "tsc",
     "test": "vitest"
   },
   "keywords": [],

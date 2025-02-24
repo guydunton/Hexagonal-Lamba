@@ -1,7 +1,7 @@
 import { Article, ArticleComponent } from './article';
-import { Block } from './tts-generator';
+import { Script, ScriptBlock } from './script';
 
-export function inBriefConverter(article: Article): Block[] {
+export function inBriefConverter(article: Article): Script {
   const aiDisclaimer = 'This story is AI narrated.';
   const sectionName = article.section.name;
   const headline = article.headline;
@@ -10,10 +10,10 @@ export function inBriefConverter(article: Article): Block[] {
   const lead = [aiDisclaimer, sectionName, headline, dateString]
     .map((text) => ({ type: 'TEXT', text }))
     .reduce((state, val) => {
-      state.push(val as Block);
+      state.push(val as ScriptBlock);
       state.push({ type: 'PAUSE', length: 2 });
       return state;
-    }, [] as Block[]);
+    }, [] as ScriptBlock[]);
 
   const body = convertBody(article);
 
@@ -29,7 +29,7 @@ export function inBriefConverter(article: Article): Block[] {
   return data;
 }
 
-function convertBody(article: Article): Block[] {
+function convertBody(article: Article): ScriptBlock[] {
   // Drop the first component
   article.body.shift();
 
@@ -52,7 +52,7 @@ function convertBody(article: Article): Block[] {
     .flat();
 }
 
-function processComponent(component: ArticleComponent): Block[] | undefined {
+function processComponent(component: ArticleComponent): ScriptBlock[] | undefined {
   switch (component.type) {
     case 'PARAGRAPH':
     case 'BLOCK_QUOTE':
@@ -69,7 +69,7 @@ function processComponent(component: ArticleComponent): Block[] | undefined {
     case 'INFOBOX':
       return (component as any).components
         .map(processComponent)
-        .filter((block: Block) => block !== undefined)
+        .filter((block: ScriptBlock) => block !== undefined)
         .flat();
     default:
       return undefined;

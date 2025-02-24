@@ -1,12 +1,12 @@
 import { test, expect, vi } from 'vitest';
 import { Article } from './article';
 import {
-  Block,
   ForFetchingArticles,
   ForGeneratingAudio,
   ForSavingFiles,
   TTSGenerator,
 } from './tts-generator';
+import { Script } from './script';
 
 function article(): Article {
   return {
@@ -52,8 +52,8 @@ test('converts the article into an audio script', async () => {
   const ttsGenerator = new TTSGenerator(generateMock, saveMock, cp2Mock);
   await ttsGenerator.generateTTSFile('https://test.url', 'output.mp3');
 
-  const expected: Block[] = [
-    { type: 'TEXT', text: 'This audio has been produced using an AI voice.' },
+  const expected: Script = [
+    { type: 'TEXT', text: 'This story is AI narrated.' },
     { type: 'PAUSE', length: 1 },
     { type: 'TEXT', text: articleData.flyTitle + '.' },
     { type: 'PAUSE', length: 1 },

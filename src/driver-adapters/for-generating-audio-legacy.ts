@@ -1,4 +1,5 @@
-import { Block, ForGeneratingAudio } from '../tts-generator';
+import { Script } from '../script';
+import { ForGeneratingAudio } from '../tts-generator';
 import { ElevenLabsClient } from 'elevenlabs';
 
 export enum Model {
@@ -15,7 +16,7 @@ export class ForGeneratingAudioLegacy implements ForGeneratingAudio {
     });
   }
 
-  async generateAudio(data: Block[]): Promise<Buffer> {
+  async generateAudio(data: Script): Promise<Buffer> {
     const article = this.convertToApiRequest(data);
     const chunks = [];
     const allText = article.join(' ');
@@ -38,7 +39,7 @@ export class ForGeneratingAudioLegacy implements ForGeneratingAudio {
     return Buffer.concat(chunks);
   }
 
-  convertToApiRequest(data: Block[]): string[] {
+  convertToApiRequest(data: Script): string[] {
     const output: string[] = [];
     for (const block of data) {
       if (block.type === 'TEXT') {

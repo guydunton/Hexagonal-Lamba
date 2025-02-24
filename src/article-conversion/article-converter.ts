@@ -1,7 +1,7 @@
-import { Article, ArticleComponent } from './article';
-import { Block } from './tts-generator';
+import { Article, ArticleComponent } from '../article';
+import { Script, ScriptBlock } from '../script';
 
-export function convertDefaultArticle(article: Article): Block[] {
+export function convertDefaultArticle(article: Article): Script {
   const aiDisclaimer = 'This story is AI narrated.';
   const sectionName = article.flyTitle;
   const headline = article.headline;
@@ -9,10 +9,10 @@ export function convertDefaultArticle(article: Article): Block[] {
   const lead = [aiDisclaimer, sectionName, headline, rubric]
     .map((text) => ({ type: 'TEXT', text }))
     .reduce((state, val) => {
-      state.push(val as Block);
+      state.push(val as ScriptBlock);
       state.push({ type: 'PAUSE', length: 1 });
       return state;
-    }, [] as Block[]);
+    }, [] as ScriptBlock[]);
 
   const body = convertBody(article);
 
@@ -28,11 +28,11 @@ export function convertDefaultArticle(article: Article): Block[] {
   return data;
 }
 
-function convertBody(article: Article): Block[] {
+function convertBody(article: Article): ScriptBlock[] {
   return article.body.map(processComponent).filter((block) => block !== undefined);
 }
 
-function processComponent(component: ArticleComponent): Block | undefined {
+function processComponent(component: ArticleComponent): ScriptBlock | undefined {
   switch (component.type) {
     case 'PARAGRAPH':
     case 'BLOCK_QUOTE':
